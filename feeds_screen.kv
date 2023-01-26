@@ -1,0 +1,289 @@
+#:import chex kivy.utils.get_color_from_hex
+
+<FeedsScreen> :
+	
+	viewer : viewer
+	searchbox : searchbox
+	prevbutton : prevbutton
+	nextbutton : nextbutton
+	
+	BoxLayout :
+		orientation : "vertical"
+		spacing : dp(4)
+		padding : [ dp(8) , dp(0) , dp(8)  , dp(0)]
+		
+		# -----> Search Bar
+		BoxLayout :
+			padding : [ dp(5) , dp(8) , dp(5)  , dp(8)]
+			size_hint : 1 , 0.08
+			spacing : dp(8)
+			
+			canvas.before :
+				Color :
+					rgba : chex("#B63137")
+				RoundedRectangle :
+					pos : self.pos
+					size : self.size
+					radius : ( 20 , 20 , 20 , 20)
+					
+			TextInput :
+				id : searchbox
+				size_hint : 0.85 , 1
+				padding : [ dp(5) , dp(1) , dp(5)  , dp(1)]
+				multiline : False
+				background_color : chex("#E0E0DF")
+				cursor_color : chex("#B63137")
+				font_name : "textfont"
+				font_size : sp(30)
+				halign : "center"
+				hint_text : "Search Post"
+				foreground_color : chex("#811113")
+				
+			
+			MDRaisedButton :
+				size_hint : 0.15 , 1
+				text : "search"
+				font_name : "textfont"
+				font_size : sp(16)
+				text_color : chex("#811113")
+				md_bg_color : chex("#E0E0DF")
+				hint_text : "nickname or date"
+		
+	
+		# -----> NewsFeed Bar
+		FloatLayout :
+			size_hint : 1 , 1
+
+			 # -----> Posts Container
+			PostFeedsContainer :
+				id : viewer
+				size_hint : 1 , 1
+				pos_hint : { "center" : (0.5 , 0.5) }
+			
+			# -----> Next And Previous Buttons
+			MDIconButton :
+				id : prevbutton
+				icon : "page-previous-outline"
+				md_bg_color : chex("#631016")
+				theme_icon_color : "Custom"
+				icon_color : chex("#E0E0DF")
+				icon_size : sp(30)
+				
+				pos_hint : { "top" : 0.2 , "x" : 0.05 }
+			
+			MDIconButton :
+				id : nextbutton
+				icon : "page-next-outline"
+				md_bg_color : chex("#631016")
+				theme_icon_color : "Custom"
+				icon_color : chex("#E0E0DF")
+				icon_size : sp(30)
+				
+				pos_hint : { "top" : 0.2 , "right" : 0.95 }
+
+# ==== Posts Feeds Container
+<PostFeedsContainer>:
+	
+	container : container
+	
+	canvas.before :
+		Color :
+			rgba : chex("#96262E")
+		RoundedRectangle :
+			pos : self.pos
+			size : self.size
+			radius : ( 30 , 30 , 0 , 0)
+	
+	# -----> Posts Container
+	MDGridLayout:
+		id : container
+		adaptive_height : True
+		cols : 1
+		spacing : dp(20)
+		padding : [ dp(5) , dp(10) , dp(5)  , dp(0)]
+			
+		HeadlineContainer :
+		HeadlineContainer :
+		HeadlineContainer :
+		HeadlineContainer :
+		HeadlineContainer :
+		HeadlineContainer :
+		HeadlineContainer :
+		HeadlineContainer :
+		HeadlineContainer :
+
+# ==== Headline Container
+<HeadlineContainer>:
+	orientation : "vertical"
+	size_hint : 1 , None
+	height : 350
+	padding : [ dp(0) , dp(10) , dp(0)  , dp(5) ]
+	spacing : dp(5)
+	
+	postdate : postdate
+	postnickname : postnickname
+	postheadline : postheadline
+	
+	canvas.before :
+		Color :
+			rgba : chex("#BAA9AC")
+		RoundedRectangle:
+			pos : self.pos
+			size : self.size
+			radius : ( 60 , 0 , 60 , 0)
+	
+	# -----> Date Bar
+	BoxLayout :
+		size_hint : 1 , 0.2
+		
+		Label :
+			id : postdate
+			text : "12 / 17 / 2001"
+			font_name : "textfont"
+			font_size : sp(12)
+			color : chex("#631016")
+			
+		
+		Label :
+		
+		
+	# -----> Headline Bar
+	ScrollView :
+		size_hint : 1 , 0.6
+		always_overscroll : False
+		
+		Button :
+			id : postheadline
+			text : "Ang aking nararamdaman sa " * 3
+			halign : "center"
+			valign : "center"
+			font_name : "textfont"
+			color : "black"
+			font_size : sp(16)
+			text_size: self.width, None
+			size_hint: 1, None
+			height: self.texture_size[1]
+			background_color : 0 , 0 , 0 , 0
+			
+			on_release :
+				root.postcontent.open()
+
+	# -----> Nickname Bar
+	BoxLayout :
+		size_hint : 1 , 0.2
+		
+		Label :
+		
+		Label :
+			id : postnickname
+			text : "- makieyot"
+			font_name : "textfont"
+			font_size : sp(16)
+			#color : chex("#631016")
+			color : chex("#D1565D")
+
+
+# ==== Post Container
+<PostContent> :
+	size_hint : 0.99 , 0.99
+	overlay_color : 0 , 0 , 0 , .6
+	background_color : 0 , 0 , 0 , 0
+	opacity : 0
+	
+	postdate : postdate
+	postheadline : postheadline
+	postnickname : postnickname
+	postcontent : postcontent
+	
+	canvas.before :
+		Color :
+			rgb : chex("#96262E")
+			a : 0.8
+		RoundedRectangle :
+			pos : self.pos
+			size : self.size
+			radius : ( 60 , 0 , 60 , 0)
+	
+	BoxLayout :
+		orientation : "vertical"
+		
+		# -----> Date Bar
+		BoxLayout :
+			size_hint : 1 , 0.05
+			
+			Label : 
+				id : postdate
+				text : "12 / 17 / 2001"
+				font_size : sp(20)
+				color : chex("#BAA9AC")
+				font_name : "textfont"
+				
+			
+			Label :
+		
+		# -----> Nickname Bar
+		Label :
+			id : postnickname
+			size_hint : 1 , 0.1
+			text : "- makieyot -"
+			font_name : "headlinefont"
+			font_size : sp(100)
+			color : chex("#D5D2D2")
+		
+		ScrollView :
+			size_hint : 1 , 0.85
+			
+			MDGridLayout :
+				adaptive_height : True
+				cols : 1
+				padding : [ dp(10) , dp(0) , dp(10)  , dp(0) ]
+				spacing : dp(5)
+				
+				Label :
+					size_hint : 1 , None
+					height : 50
+					
+				# -----> Headline Bar
+				Label :
+					id : postheadline
+					text : "Ang aking nararamdaman sa isang tao na alam ko na hindi mapapasa akin."
+					halign : "center"
+					color : chex("#C7C0C2")
+					font_size : sp(20)
+					text_size: self.width, None
+					size_hint: 1, None
+					height: self.texture_size[1]
+				
+				Label :
+					size_hint : 1 , None
+					height : 50
+				
+				Label :
+					size_hint : 1 , None
+					height : 15
+					
+					canvas.before :
+						Color :
+							rgba : chex("#BAA9AC")
+						RoundedRectangle :
+							pos : self.pos
+							size : self.size
+							radius : (10,)
+					
+				Label :
+					size_hint : 1 , None
+					height : 50
+					
+				# -----> Content Bar
+				Label :
+					id : postcontent
+					text : "Ang aking nararamdaman sa isang tao na alam ko na hindi mapapasa akin" 
+					halign : "center"
+					color : chex("#BAA9AC")
+					font_size : sp(16)
+					text_size: self.width, None
+					size_hint: 1, None
+					height: self.texture_size[1]
+		
+	
+		

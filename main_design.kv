@@ -1,0 +1,112 @@
+#:import chex kivy.utils.get_color_from_hex
+
+MainWidget:
+	
+	screens_holder : screens_holder
+	
+	orientation : "vertical"
+	spacing : dp(3)
+	
+	canvas.before :
+		Color :
+			rgb : chex("#C7C0C2")
+		Rectangle :
+			pos : self.pos
+			size : self.size
+	
+	# ---> Title Bar
+	FloatLayout :
+		size_hint : 1 , 0.08
+		
+		# ---> Title 
+		Label :
+			size_hint : 1 , 1
+			pos_hint : { "center_x" : .5  , "center_y" : .5 }
+			text : "OC Thoughts"
+			font_name : "mainfont"
+			font_size : sp(50)
+			color : chex("#E3D8DD")
+			
+			canvas.before :
+				Color :
+					rgba : chex("#B63137")
+				RoundedRectangle :
+					pos : self.pos
+					size : self.size
+					radius : ( 0 , 0 , 20 , 20)
+			
+		# ---> Setting Icon
+		MDIconButton :
+			size_hint : 0.15 , 1
+			pos_hint : {"right" : 0.99 , "center_y" : 0.5 }
+			icon : "window-shutter-cog"
+			icon_size : sp(35)
+			theme_text_color : "Custom"
+			icon_color : chex("#E3D8DD")
+			
+			on_release :
+				root.settingspopup.open()
+			
+	# ----> Content Bar
+	ScreensHolder :
+		id : screens_holder
+		size_hint : 1 , 0.84
+		
+		canvas.before :
+			Color :
+				rgb : chex("#C7C0C2")
+			Rectangle :
+				pos : self.pos
+				size : self.size
+		
+	# -----> Switching Screens Bar
+	BoxLayout :
+		size_hint : 1 , 0.08
+		padding : dp(2)
+		
+		canvas.before :
+			Color :
+				rgba : chex("#B63137")
+			RoundedRectangle :
+				pos : self.pos
+				size : self.size
+				radius : ( 40 , 40 , 0 , 0)
+			
+		MDIconButton :
+			size_hint : 0.5 , 1
+			icon : "newspaper-variant-multiple-outline"
+			icon_size : sp(55)
+			theme_icon_color : "Custom"
+			icon_color : chex("#E0D8D8") if screens_holder.current == "feeds" else chex("#811113")
+			
+			on_release :
+				screens_holder.current = "feeds"
+			
+		MDIconButton :
+			size_hint : 0.5 , 1
+			icon : "cloud-upload-outline"
+			icon_size : sp(55)
+			theme_icon_color : "Custom"
+			icon_color : chex("#E0D8D8") if screens_holder.current == "upload" else chex("#811113")
+			
+			on_release :
+				screens_holder.current = "upload"
+			
+
+<SettingWidget>:
+	size_hint : 0.89 , 0.59
+	overlay_color : 0 , 0 , 0 , .4
+	background_color : 0 , 0 , 0 , 0
+	opacity : 0
+	
+	canvas.before :
+		Color :
+			rgb : chex("#96262E")
+			a : 0.95
+		RoundedRectangle :
+			pos : self.pos
+			size : self.size
+			radius : ( 60 , 0 , 60 , 0)
+
+
+
