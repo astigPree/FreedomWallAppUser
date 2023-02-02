@@ -63,6 +63,7 @@
 			# -----> Next And Previous Buttons
 			MDIconButton :
 				id : prevbutton
+				opacity : 0
 				icon : "page-previous-outline"
 				md_bg_color : chex("#631016")
 				theme_icon_color : "Custom"
@@ -73,6 +74,7 @@
 			
 			MDIconButton :
 				id : nextbutton
+				opacity : 0
 				icon : "page-next-outline"
 				md_bg_color : chex("#631016")
 				theme_icon_color : "Custom"
@@ -116,9 +118,9 @@
 <HeadlineContainer>:
 	orientation : "vertical"
 	size_hint : 1 , None
-	height : 350
-	padding : [ dp(0) , dp(10) , dp(0)  , dp(5) ]
-	spacing : dp(5)
+	height : self.minimum_height
+	padding : [ dp(8) , dp(10) , dp(8)  , dp(10) ]
+	spacing : dp(10)
 	
 	postdate : postdate
 	postnickname : postnickname
@@ -147,26 +149,22 @@
 		Label :
 		
 		
-	# -----> Headline Bar
-	ScrollView :
-		size_hint : 1 , 0.6
-		always_overscroll : False
-		
-		Button :
-			id : postheadline
-			text : "Ang aking nararamdaman sa " * 3
-			halign : "center"
-			valign : "center"
-			font_name : "textfont"
-			color : "black"
-			font_size : sp(16)
-			text_size: self.width, None
-			size_hint: 1, None
-			height: self.texture_size[1]
-			background_color : 0 , 0 , 0 , 0
+	# -----> Headline Bar	
+	Button :
+		id : postheadline
+		text : "Ang aking nararamdaman sa " * 10
+		halign : "center"
+		valign : "center"
+		font_name : "textfont"
+		color : "black"
+		font_size : sp(16)
+		text_size: self.width, None
+		size_hint: 1, None
+		height: self.texture_size[1]
+		background_color : 0 , 0 , 0 , 0
 			
-			on_release :
-				root.postcontent.open()
+		on_release :
+			root.postcontent.open()
 
 	# -----> Nickname Bar
 	BoxLayout :
@@ -178,7 +176,7 @@
 			id : postnickname
 			text : "- makieyot"
 			font_name : "textfont"
-			font_size : sp(16)
+			font_size : sp(18)
 			#color : chex("#631016")
 			color : chex("#D1565D")
 
@@ -232,6 +230,8 @@
 		
 		ScrollView :
 			size_hint : 1 , 0.85
+			effect_cls : "OpacityScrollEffect"
+			always_overscroll : False
 			
 			MDGridLayout :
 				adaptive_height : True
@@ -249,10 +249,11 @@
 					text : "Ang aking nararamdaman sa isang tao na alam ko na hindi mapapasa akin."
 					halign : "center"
 					color : chex("#C7C0C2")
-					font_size : sp(20)
+					font_size : sp(23)
 					text_size: self.width, None
 					size_hint: 1, None
 					height: self.texture_size[1]
+					font_name : "textfont"
 				
 				Label :
 					size_hint : 1 , None
@@ -280,7 +281,8 @@
 					text : "Ang aking nararamdaman sa isang tao na alam ko na hindi mapapasa akin" 
 					halign : "center"
 					color : chex("#BAA9AC")
-					font_size : sp(16)
+					font_name : "textfont"
+					font_size : sp(18)
 					text_size: self.width, None
 					size_hint: 1, None
 					height: self.texture_size[1]

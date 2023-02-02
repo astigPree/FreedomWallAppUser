@@ -43,31 +43,38 @@ class PostFeedsContainer(ScrollView) :
 	
 	container : GridLayout = ObjectProperty(None)
 	
-#	def addHeadline(self , data : dict) :
-#		self.post_container.bind(minimum_height=self.post_container.setter('height'))
+	def addHeadline(self , data : dict) :
+		self.container.bind(minimum_height=self.container.setter('height'))
 
 
 # ==== Main Screen
 class FeedsScreen(Screen) :
 	
+	# Design Attrib
 	searchbox : TextInput = ObjectProperty(None)
 	viewer : PostFeedsContainer = ObjectProperty(None)
 	prevbutton : Button = ObjectProperty(None)
 	nextbutton : Button = ObjectProperty(None)
 	
-	
+	# Backend Attrib
 	hasNext = True
 	hasPrev = False
+	
+	
 	
 	def on_kv_post(self , base_widget):
 		Clock.schedule_interval(self.popupNextAndPrevButton , 1 )
 	
 	def popupNextAndPrevButton(self , interval ):
 		if self.viewer.scroll_y < 0.2 and self.nextbutton.opacity < 1 and self.prevbutton.opacity < 1 :
+			self.prevbutton.disabled = self.hasPrev
+			self.nextbutton.disabled = self.hasNext
 			anim = Animation(opacity = 1 , duration = 0.2)
 			anim.start(self.prevbutton)
 			anim.start(self.nextbutton)
 		if self.viewer.scroll_y > 0.2 and self.nextbutton.opacity > 0 and self.prevbutton.opacity > 0 :
+			self.prevbutton.disabled = self.hasPrev
+			self.nextbutton.disabled = self.hasNext
 			anim = Animation(opacity = 0 , duration = 0.2)
 			anim.start(self.prevbutton)
 			anim.start(self.nextbutton)

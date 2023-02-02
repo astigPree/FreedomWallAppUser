@@ -80,6 +80,7 @@ MainWidget:
 			icon_color : chex("#E0D8D8") if screens_holder.current == "feeds" else chex("#811113")
 			
 			on_release :
+				screens_holder.transition.direction = "right"
 				screens_holder.current = "feeds"
 			
 		MDIconButton :
@@ -90,6 +91,7 @@ MainWidget:
 			icon_color : chex("#E0D8D8") if screens_holder.current == "upload" else chex("#811113")
 			
 			on_release :
+				screens_holder.transition.direction = "left"
 				screens_holder.current = "upload"
 			
 

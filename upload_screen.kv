@@ -2,6 +2,269 @@
 
 <UploadScreen>:
 	
+	nickname : nickname
+	post_title : post_title
+	post_content : post_content
+	
 	ScrollView :
+		always_overscroll : False
 		
+		MDGridLayout:
+			adaptive_height : True
+			cols : 1
+			padding : [ dp(10) , dp(0) , dp(10)  , dp(0)]
+			spacing : dp(30)
+			
+			# ----> Nickname Bar
+			BoxLayout :
+				padding : [ dp(10) , dp(8) , dp(10)  , dp(8)]
+				size_hint : 1 , None
+				height : 150
+				spacing : dp(8)
+				
+				canvas.before :
+					Color :
+						rgba : chex("#B63137")
+					RoundedRectangle :
+						pos : self.pos
+						size : self.size
+						radius : ( 20 , 20 , 20 , 20)
+				
+				TextInput :
+					id : nickname
+					size_hint : 1 , 1
+					padding : [ dp(5) , dp(1) , dp(5)  , dp(1)]
+					multiline : False
+					background_color : chex("#E0E0DF")
+					cursor_color : chex("#B63137")
+					font_name : "textfont"
+					font_size : sp(30)
+					halign : "center"
+					hint_text : "Nickname"
+					foreground_color : chex("#811113")
+						
+			# ----> Headline Bar
+			BoxLayout :
+				padding : [ dp(20) , dp(8) , dp(20)  , dp(8)]
+				size_hint : 1 , None
+				height : self.minimum_height
+				spacing : dp(8)
+				orientation : "vertical"
+				
+				canvas.before :
+					Color :
+						rgba : chex("#B63137")
+					RoundedRectangle :
+						pos : self.pos
+						size : self.size
+						radius : ( 20 , 20 , 20 , 20)
+				
+				MDLabel :
+					text : "About : "
+					font_name : "textfont"
+					size_hint : 1 , None
+					height : 50
+					font_size : sp(20)
+					color : chex("#BAA9AC")
+				
+				ScrollView :
+					size_hint : 1 , None
+					height : 300
+					effect_cls : "ScrollEffect"
+					
+					canvas.before :
+						Color :
+							rgb : chex("#BAA9AC")
+							a : 0.95
+						RoundedRectangle :
+							pos : self.pos
+							size : self.size
+							radius : ( 60 , 0 , 60 , 0)
+				
+					BoxLayout :
+						size_hint : 1 , None
+						height : self.minimum_height
+						padding : dp(5)
+					
+						Button :
+							id : post_title
+							text : "What is it all about ?"
+							halign : "center"
+							valign : "center"
+							font_name : "textfont"
+							color : "black"
+							font_size : sp(22)
+							text_size: self.width, None
+							size_hint: 1, None
+							height: self.parent.parent.height - 50
+							background_color : 0 , 0 , 0 , 0
+							
+							on_release :
+								root.inputer.textbox_text = self.text
+								root.inputer.text_size = 25
+								root.inputer.input_length = 50
+								root.inputer.contentType = False
+								root.inputer.hasScapeLine = False
+								root.inputer.text_title = "What is it all about ?"
+								root.inputer.open()
+
+			# ----> Content Bar
+			BoxLayout :
+				padding : [ dp(20) , dp(8) , dp(20)  , dp(8) ]
+				size_hint : 1 , None
+				height : self.minimum_height
+				spacing : dp(8)
+				orientation : "vertical"
+				
+				canvas.before :
+					Color :
+						rgba : chex("#B63137")
+					RoundedRectangle :
+						pos : self.pos
+						size : self.size
+						radius : ( 20 , 20 , 20 , 20)
+				
+				MDLabel :
+					text : "Content : "
+					font_name : "textfont"
+					size_hint : 1 , None
+					height : 50
+					font_size : sp(20)
+					color : chex("#BAA9AC")
+				
+				ScrollView :
+					size_hint : 1 , None
+					height : 600
+					effect_cls : "ScrollEffect"
+					
+					canvas.before :
+						Color :
+							rgb : chex("#BAA9AC")
+							a : 0.95
+						RoundedRectangle :
+							pos : self.pos
+							size : self.size
+							radius : ( 60 , 0 , 60 , 0)
+				
+					BoxLayout:
+						size_hint : 1 , None
+						height : self.minimum_height
+						padding : dp(5)
+						
+						Button :
+							id : post_content
+							text : "What your thoughts about it ?"
+							halign : "center"
+							font_name : "textfont"
+							color : "black"
+							font_size : sp(18)
+							text_size: self.width, None
+							size_hint: 1, None
+							height: self.texture_size[1] if self.text.count("\n") > 8 or len(self.text) > 100 else self.parent.parent.height  - 50 
+							background_color : 0 , 0 , 0 , 0
+							
+							on_release :
+								root.inputer.textbox_text = self.text
+								root.inputer.text_title = "What your thoughts about it?"
+								root.inputer.open()
+					
+
+			# ----> Buttons Bar
+			BoxLayout :
+				padding : [ dp(20) , dp(8) , dp(20)  , dp(8)]
+				size_hint : 1 , None
+				height : 200
+				spacing : dp(8)
+				
+				canvas.before :
+					Color :
+						rgba : chex("#B63137")
+					RoundedRectangle :
+						pos : self.pos
+						size : self.size
+						radius : ( 60 , 60 , 20 , 20)
+				
+				MDFillRoundFlatButton:
+					text : "CLEAR"
+					size_hint : 0.5 , 1
+					md_bg_color : chex("#BAA9AC")
+					text_color : "black"
+					font_name : "textfont"
+					font_size : sp(24)
+					
+					on_release :
+						root.clearData()
+					
+				MDFillRoundFlatButton:
+					text : "SHARE"
+					size_hint : 0.5 , 1
+					md_bg_color : chex("#BAA9AC")
+					text_color : "black"
+					font_name : "textfont"
+					font_size : sp(24)
+
+
+
+<Inputer>:
+	size_hint : 0.89 , 0.49
+	overlay_color : 0 , 0 , 0 , .4
+	background_color : 0 , 0 , 0 , 0
+	opacity : 0
+	auto_dismiss : False
+	
+	textbox : textbox
+	donebutton : donebutton
+	
+	BoxLayout :
+		orientation : "vertical"
+		padding : dp(20)
+		background_color : 0 , 0 , 0 , 0
+		spacing : dp(5)
 		
+		canvas.before :
+			Color :
+				rgb : chex("#96262E")
+				a : 0.95
+			RoundedRectangle :
+				pos : self.pos
+				size : self.size
+				radius : ( 60 , 0 , 60 , 0)
+		
+		TextInput :
+			id : textbox
+			size_hint : 1 , 0.7
+			text : root.textbox_text
+			foreground_color : chex("#B63137")
+			font_name : "textfont"
+			font_size : sp(root.text_size)
+			halign : "center"
+			hint_text : root.text_title
+			padding_y: [30 , 0] if root.hasScapeLine else [self.height / 2.0 - (self.line_height / 2.0) * len(self._lines), 0]
+			
+		BoxLayout :
+			size_hint : 1 , 0.3
+			spacing : dp(10)
+			padding : [ dp(0) , dp(20) , dp(0)  , dp(20)]
+			
+			MDFillRoundFlatButton:
+				text : "CLEAR"
+				size_hint : 0.5 , 1
+				md_bg_color : chex("#BAA9AC")
+				text_color : "black"
+				font_name : "textfont"
+				font_size : sp(24)
+				
+				on_release :
+					textbox.text = ""
+					
+			MDFillRoundFlatButton:
+				id : donebutton
+				text : "DONE"
+				size_hint : 0.5 , 1
+				md_bg_color : chex("#BAA9AC")
+				text_color : "black"
+				font_name : "textfont"
+				font_size : sp(24)
+				
+				
+
