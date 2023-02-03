@@ -46,6 +46,20 @@ MainWidget:
 			
 			on_release :
 				root.settingspopup.open()
+		
+		# ---> Creator Icon
+		Image:
+			size_hint : 0.15 , 1
+			pos_hint : {"x" : 0.01  , "center_y" : 0.5 }
+			source : root.logo
+			
+			canvas.before :
+				Color :
+					rgba : chex("#B63137")
+				RoundedRectangle :
+					pos : self.pos
+					size : self.size
+					radius : ( 40 , 40 , 0 , 0)
 			
 	# ----> Content Bar
 	ScreensHolder :

@@ -5,18 +5,50 @@ import typing
 import uuid
 import pickle , json
 import os
+from cryptography.fernet import Fernet
+
+"""
+Logic of secured sending
+	- send Fernet key to server
+	- send the user need ( encrypted with Fernet key )
+	- decrypt the user need in the server 
+	- recieve the user need from server ( encrypted with Fernet key from user )
+	- decrypt the recived data and use it what ever needs
+
+"""
 
 class DataManager:
 	
-	__slots__ = ( "__dataholder" , "filename")
+	__slots__ = ( "__dataholder" , "filename" , "__server_locker" , "__app_locker")
 	
 	def __init__(self  ):
+		self.__app_locker : bytes = Fernet.generate_key()
 		self.filename = "oc thoughts.aspre"
 		self.__dataholder = { 
 			"SERVER ID" : "AstigPre45678" , 
 			"APP ID" : "OC4567" , 
 			"user id" : str(uuid.uuid4())
 			}
+	
+	def get_my_locker(self) -> bytes :
+		return self.__app_locker
+	
+	def get_encrypted_data(self):
+		encryption = Fernet(self.__app_locker)
+		return encryption.encrypt(self.get_bytes_data())
+	
+	def decrypt_data(self , data : bytes) :
+		decryption = Fernet(self.__app_locker)
+		return decryption.decrypt(data)
+	
+	def get_bytes_data(self) -> bytes:
+		return pickle.dumps(self.__dataholder)
+	
+	def object_from_bytes(self , data : bytes):
+		return pickle.loads(data)
+	
+	def bytes_from_object(self , data : object ):
+		return pickle.dumps(data)
 		
 	def add_data(self , key : str , values : typing.Union[ str , list , dict , bool , tuple ,bytes ]) :
 		if not isinstance(key , str):
@@ -68,12 +100,10 @@ class DataManager:
 		
 	
 if __name__ == "__main__" :
-	data = DataManager()
-	data.add_data("k" , "g")
-	data.update_data("k" , "nice")
-	
-	data.save_to(os.getcwd() , turnToBytes=True)
-	
+	d = DataManager()
+	d.add_data("k" , "g")
+	d.update_data("k" , "nice")
+	print(d.get_encrypted_data())
 	
 	
 	

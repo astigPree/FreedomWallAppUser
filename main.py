@@ -1,4 +1,5 @@
 __version__ = "0.0.1"
+	
 
 from kivymd.app import MDApp
 from kivy.uix.boxlayout import BoxLayout
@@ -31,6 +32,8 @@ class ScreensHolder(ScreenManager) :
 # ===== Main Widget
 class MainWidget(BoxLayout) :
 	
+	logo = "Files/transparent.png"
+	
 	screens_holder : ScreensHolder = ObjectProperty(None)
 	
 	def __init__(self , **kwargs):
@@ -40,7 +43,7 @@ class MainWidget(BoxLayout) :
 	def on_kv_post(self , base_widget) :
 		self.screens_holder.add_widget(FeedsScreen(name="feeds"))
 		self.screens_holder.add_widget(UploadScreen(name="upload"))
-	
+
 	
 # ===== Main Application
 class MyApp(MDApp) :

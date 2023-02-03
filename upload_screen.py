@@ -7,6 +7,9 @@ from kivy.clock import Clock
 from kivy.uix.button import Button
 from kivy.uix.textinput import TextInput
 
+from data_management import DataManager
+from network import *
+
 # === Inputer 
 class Inputer(ModalView) :
 	
@@ -27,7 +30,6 @@ class Inputer(ModalView) :
 		self.input_length = 0
 		self.contentType = True
 		self.hasScapeLine = True
-		self.textbox.padding_y = [self.textbox.height / 2.0 - (self.textbox.line_height / 2.0) * len(self.textbox._lines), 0]
 		
 	def get_text(self) -> str :
 		return self.textbox.text
@@ -62,10 +64,11 @@ class UploadScreen(Screen) :
 	post_title : Button = ObjectProperty(None)
 	post_content : Button = ObjectProperty(None)
 	
-	post_text = ( "What is it all about ?" , "What your thoughts about it?")
+	post_text = ( "What is it all about ?" , "What your thoughts about it ?")
 	
 	def __init__(self , **kwargs):
 		super(UploadScreen , self).__init__(**kwargs)
+		self.app_data = DataManager()
 		self.inputer = Inputer()
 		self.inputer.donebutton.bind(on_release = self.closeInputer )
 	
